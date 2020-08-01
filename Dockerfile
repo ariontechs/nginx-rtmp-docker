@@ -19,6 +19,7 @@ RUN mkdir -p /tmp/build/nginx && \
 
 # Download and decompress RTMP module
 RUN mkdir -p /tmp/hls && \
+    mkdir -p /tmp/record && chown nobody /tmp/record && \
     mkdir -p /tmp/build/nginx-rtmp-module && \
     cd /tmp/build/nginx-rtmp-module && \
     wget -O nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION}.tar.gz https://github.com/arut/nginx-rtmp-module/archive/v${NGINX_RTMP_MODULE_VERSION}.tar.gz && \
