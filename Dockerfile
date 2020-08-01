@@ -5,6 +5,7 @@ LABEL maintainer="Sebastian Ramirez <tiangolo@gmail.com>"
 # Versions of Nginx and nginx-rtmp-module to use
 ENV NGINX_VERSION nginx-1.15.0
 ENV NGINX_RTMP_MODULE_VERSION 1.2.1
+ENV FFMPEG_VERSION 4.3.1
 
 # Install dependencies
 RUN apt-get update && \
@@ -46,6 +47,17 @@ RUN cd /tmp/build/nginx/${NGINX_VERSION} && \
     make install && \
     mkdir /var/lock/nginx && \
     rm -rf /tmp/build
+
+# Install ffmpeg
+RUN echo deb http://www.deb-multimedia.org stretch main non-free \
+    >>/etc/apt/sources.list && \
+    wget http://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-multimedia-keyring_2016.8.1_all.deb && \
+    dpkg -i deb-multimedia-keyring_2016.8.1_all.deb && \
+    apt-get update && \
+    apt-get -y install deb-multimedia-keyring && \
+    apt-get update && \
+    apt-get -y dist-upgrade && \
+    apt-get -y install ffmpeg
 
 # Forward logs to Docker
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
