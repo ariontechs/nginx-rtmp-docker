@@ -101,3 +101,7 @@ You can start from it and modify it as you need. Here's the [documentation relat
 ## License
 
 This project is licensed under the terms of the MIT License.
+
+
+## Issues
+不要在 exec_record_done 增加 && rm, 不知為何就會造成ffmpeg轉檔失敗
