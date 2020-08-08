@@ -105,3 +105,50 @@ This project is licensed under the terms of the MIT License.
 
 ## Issues
 不要在 exec_record_done 增加 && rm, 不知為何就會造成ffmpeg轉檔失敗
+
+
+## install on ec2
+
+[nginx-rtmp-php-install-ubuntu](https://github.com/chakkritte/nginx-rtmp-install-ubuntu)
+
+```sh
+sudo apt-get update
+sudo apt-get install build-essential libpcre3 libpcre3-dev libssl-dev unzip
+
+wget http://nginx.org/download/nginx-1.15.0.tar.gz
+wget https://github.com/arut/nginx-rtmp-module/archive/master.zip
+
+tar -zxvf nginx-1.15.0.tar.gz
+unzip master.zip
+cd nginx-1.15.0
+
+./configure \
+    --add-module=../nginx-rtmp-module-master  \
+    --with-http_ssl_module  \
+    --with-http_realip_module \
+    --with-http_addition_module \
+    --with-http_sub_module \
+    --with-http_dav_module \
+    --with-http_flv_module \
+    --with-http_mp4_module \
+    --with-http_gunzip_module \
+    --with-http_gzip_static_module \
+    --with-http_random_index_module \
+    --with-http_secure_link_module \
+    --with-http_stub_status_module \
+    --with-http_auth_request_module \
+    --with-mail \
+    --with-mail_ssl_module \
+    --with-file-aio \
+    --with-ipv6 
+
+make
+sudo make install
+sudo /usr/local/nginx/sbin/nginx
+mkdir -p /tmp/hls
+sudo chown nobody /tmp/hls
+mkdir -p /tmp/record
+sudo chown nobody /tmp/reocrd
+sudo nano /usr/local/nginx/conf/nginx.conf
+
+```
